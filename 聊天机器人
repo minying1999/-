@@ -1,32 +1,12 @@
-def tranlate(source, direction):
-    import requests
-    import json
+import requests
+import re
+key = input('\n请输入你的key:')
 
-    url = "http://api.interpreter.caiyunai.com/v1/translator"
-
-    # WARNING, this token is a test token for new developers, and it should be replaced by your token
-    token=input('请输入您的token：')
-    #token = "3975l6lr5pcbvidl6jl2"
-
-    payload = {
-
-        "source": source,
-        "trans_type": direction,
-        "request_id": "demo",
-        "detect": True,
-    }
-
-    headers = {
-        'content-type': "application/json",
-        'x-authorization': "token " + token,
-    }
-
-    response = requests.request("POST", url, data=json.dumps(payload), headers=headers)
-
-    return json.loads(response.text)['target']
-
-
-source = ["Lingocloud is the best translation service.", "彩云小译は最高の翻訳サービスです"]
-target2 = tranlate(source, "auto2zh")
-
-print(target2)
+while True:
+    info = input('\n可爱的我:')#对话输入
+    url = 'http：//www.tuling123.com/openapi/api?key='+ key + '&info='+ info
+    res = requests.get(url).text #得到网页源代码
+    reg = r'"text":"(.*?)"'#进行筛选
+    reg = re.compile(reg.re.S)
+    imagesList = re.findall(reg,res)#筛选后得到列表数据
+    print(*imagesList,sep= '\n')#将列表第一个元素打印出来，最后输出
